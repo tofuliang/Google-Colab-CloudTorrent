@@ -1,9 +1,8 @@
 # Google-Colab-CloudTorrent
 
-
 <b>Features:</b>
-- [x] Cloud Torrent remote torrent client
-- [x] Using serveo.net to publish public server
+- [x] Cloud Torrent and peerflix-server remote torrent client
+- [x] Using serveo.net and ngrok to publish public server
 - [x] One command to unzip zip file.
 - [x] Upload data to MEGA/Google Drive (Account require)
 
