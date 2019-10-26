@@ -1,3 +1,5 @@
+![preview](https://raw.githubusercontent.com/biplobsd/Google-Colab-CloudTorrent/master/src/preview.gif)
+
 # Google-Colab-CloudTorrent
 
 <b>Features:</b>
