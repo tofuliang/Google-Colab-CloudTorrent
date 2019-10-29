@@ -35,6 +35,6 @@ def updateCheck(self, Version):
     if Version != currentVersion:
         print("Script Update Checker: Version "+currentVersion+" "+message+" Your version: "+Version+"")
         display(HTML('<div style="background-color: #4caf50!important;text-align: center;padding-top:-1px;padding-bottom: 9px;boder:1px"><h4 style="padding-top:5px"><a target="_blank" href="http://bit.ly/updateCscript" style="color: #fff!important;text-decoration: none;color: inherit;background-color:transparent;font-family: Segoe UI,Arial,sans-serif;font-weight: 400;font-size: 20px;">Open Latest Version</a></h4></div>'))
-        os.system('kill -9 -1')
+        !kill -9 -1
     else:
         print("Script Update Checker: Your script is up to date")
