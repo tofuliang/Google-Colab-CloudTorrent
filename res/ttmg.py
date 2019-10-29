@@ -2,8 +2,7 @@ from urllib.request import *
 import os
 from lxml.etree import XML
 
-def updateCheck(self):
-    global Version
+def updateCheck(self, Version):
     class UpdateChecker(object):
       
       def __init__(self):
