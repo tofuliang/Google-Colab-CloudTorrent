@@ -1,5 +1,6 @@
 from urllib.request import *
 import os
+from IPython.display import HTML, clear_output
 from lxml.etree import XML
 
 def updateCheck(self, Version):
