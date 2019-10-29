@@ -1,5 +1,6 @@
 from urllib.request import *
 import os
+from google.colab import *
 from IPython.display import HTML, clear_output
 from lxml.etree import XML
 
