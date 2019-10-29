@@ -4,6 +4,36 @@ from sys import exit as exx, path as s_p
 from IPython.display import HTML, clear_output
 from lxml.etree import XML
 
+def runSh(args, *, output=False, shell=False):
+    import subprocess, shlex 
+
+    if not shell:
+        if output:
+            proc = subprocess.Popen( 
+                shlex.split(args), stdout=subprocess.PIPE, stderr=subprocess.STDOUT
+            )
+            while True:
+                output = proc.stdout.readline()
+                if output == b"" and proc.poll() is not None:
+                    return
+                if output:
+                    print(output.decode("utf-8").strip())
+        return subprocess.run(shlex.split(args)).returncode
+    else:
+        if output:
+            return (
+                subprocess.run(
+                    args,
+                    shell=True, 
+                    stdout=subprocess.PIPE,
+                    stderr=subprocess.STDOUT,
+                )
+                .stdout.decode("utf-8")
+                .strip()
+            )
+        return subprocess.run(args, shell=True).returncode 
+
+
 def updateCheck(self, Version):
     class UpdateChecker(object):
       
@@ -35,6 +65,7 @@ def updateCheck(self, Version):
     if Version != currentVersion:
         print("Script Update Checker: Version "+currentVersion+" "+message+" Your version: "+Version+"")
         display(HTML('<div style="background-color: #4caf50!important;text-align: center;padding-top:-1px;padding-bottom: 9px;boder:1px"><h4 style="padding-top:5px"><a target="_blank" href="http://bit.ly/updateCscript" style="color: #fff!important;text-decoration: none;color: inherit;background-color:transparent;font-family: Segoe UI,Arial,sans-serif;font-weight: 400;font-size: 20px;">Open Latest Version</a></h4></div>'))
-        exx()
+        runSh("kill -9 -1")
     else:
         print("Script Update Checker: Your script is up to date")
+        
