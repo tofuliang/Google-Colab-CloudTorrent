@@ -4,13 +4,13 @@ from sys import exit as exx, path as s_p
 from IPython.display import HTML, clear_output
 from lxml.etree import XML
 
-def runSh(args, *, output=False, shell=False):
+def runSh(args, *, output=False, shell=False cd=None):
     import subprocess, shlex 
 
     if not shell:
         if output:
             proc = subprocess.Popen( 
-                shlex.split(args), stdout=subprocess.PIPE, stderr=subprocess.STDOUT
+                shlex.split(args), stdout=subprocess.PIPE, stderr=subprocess.STDOUT, cwd=cd
             )
             while True:
                 output = proc.stdout.readline()
@@ -18,7 +18,7 @@ def runSh(args, *, output=False, shell=False):
                     return
                 if output:
                     print(output.decode("utf-8").strip())
-        return subprocess.run(shlex.split(args)).returncode
+        return subprocess.run(shlex.split(args), cwd=cd).returncode
     else:
         if output:
             return (
@@ -27,11 +27,12 @@ def runSh(args, *, output=False, shell=False):
                     shell=True, 
                     stdout=subprocess.PIPE,
                     stderr=subprocess.STDOUT,
+                    cwd=cd,
                 )
                 .stdout.decode("utf-8")
                 .strip()
             )
-        return subprocess.run(args, shell=True).returncode 
+        return subprocess.run(args, shell=True, cwd=cd).returncode 
 
 
 def updateCheck(self, Version):
