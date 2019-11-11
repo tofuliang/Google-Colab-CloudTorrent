@@ -4,7 +4,7 @@ from sys import exit as exx, path as s_p
 from IPython.display import HTML, clear_output
 from lxml.etree import XML
 
-def runSh(args, *, output=False, shell=False cd=None):
+def runSh(args, *, output=False, shell=False, cd=None):
     import subprocess, shlex 
 
     if not shell:
