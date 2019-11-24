@@ -71,26 +71,9 @@ def accessSettingFile(file="", setting={}):
         print(f"Error accessing the file: {fullPath}.")
 
 
-def createButton(name, *, func=None, style="", icon="check"):
-    import ipywidgets as widgets
-
-    button = widgets.Button(
-        description=name, button_style=style, icon=icon, disabled=not bool(func)
-    )
-    button.style.font_weight = "900"
-    button.on_click(func)
-    output = widgets.Output()
-    display(button, output)
-
 def displayUrl(data, buRemote, reset):
     clear_output(wait=True)
     print(f'Web UI: {data["url"]} : {data["port"]}')
-    if "surl" in data.keys():
-        print(f'Web UI (S): {data["surl"]} : {data["port"]}')
-    createButton("Backup Remote", func=buRemote)
-    if "token" in data.keys():
-        createButton("Reset", func=reset)
-
 
 def findProcess(process, command="", isPid=False):
     from psutil import pids, Process
