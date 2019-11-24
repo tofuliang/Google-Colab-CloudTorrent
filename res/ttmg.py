@@ -84,27 +84,6 @@ def displayUrl(data, buRemote, reset):
     if "token" in data.keys():
         createButton("Reset", func=reset)
 
-def resetService(name):
-    data = accessSettingFile(f"{name}QBUrl.txt")
-    while findProcess(data["pid"]):
-        runSh(f"kill {data['pid']}")
-        time.sleep(1)
-    startWebUiQB(name)
-
-def displayButtons(data, WEB_PORT):
-    def resetNgrokService(a):
-        resetService("ngrok")
-
-    def startBackupRemoteService(a):
-        installAutoSSH()
-        !autossh -l {RAND_QB_Name} -M 0 -o \
-            'StrictHostKeyChecking=no' -o \
-                'ServerAliveInterval 300' -o \
-                    'ServerAliveCountMax 30' -R \
-                        80:localhost:{WEB_PORT} ssh.localhost.run
-
-    displayUrl(data, startBackupRemoteService, resetNgrokService)
-
 
 def findProcess(process, command="", isPid=False):
     from psutil import pids, Process
