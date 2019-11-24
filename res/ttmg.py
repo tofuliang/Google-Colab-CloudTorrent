@@ -71,7 +71,7 @@ def accessSettingFile(file="", setting={}):
         print(f"Error accessing the file: {fullPath}.")
 
 
-def displayUrl(data, buRemote, reset):
+def displayUrl(data):
     clear_output(wait=True)
     print(f'Web UI: {data["url"]} : {data["port"]}')
 
