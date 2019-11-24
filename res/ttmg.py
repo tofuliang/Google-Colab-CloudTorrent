@@ -1,7 +1,9 @@
-from urllib.request import *
 import os
+import IPython.core.magic
+from urllib.request import *
 from sys import exit as exx, path as s_p
 from IPython.display import HTML, clear_output
+
 from lxml.etree import XML
 
 def nameport(TOKEN, AUTO, PORT=10001):
@@ -23,7 +25,10 @@ def nameport(TOKEN, AUTO, PORT=10001):
         "api003": "1Q6smHt4Bzz9VEXTwj3a7p5Gdx2_5mp6ivT6N6nB3YmRHUEM3",
     }
   elif not TOKEN:
-    tokens, USR_Api = requestAuth()
+    print("Copy authtoken from https://dashboard.ngrok.com/auth")
+    __temp = %sx read -p "Token :"
+    tokens['your'] = __temp[0].split(':')[1]
+    USR_Api = "your"
   else:
     USR_Api = "mind"
     tokens["mind"] = TOKEN
