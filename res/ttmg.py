@@ -31,6 +31,7 @@ def nameport(TOKEN, AUTO, PORT=10001):
     __temp = ipython.magic('%sx read -p "Token :"')
     tokens['your'] = __temp[0].split(':')[1]
     USR_Api = "your"
+    clear_output()
   else:
     USR_Api = "mind"
     tokens["mind"] = TOKEN
