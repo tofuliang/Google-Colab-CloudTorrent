@@ -1,5 +1,5 @@
 import os
-from IPython.core.magic import *
+import IPython
 from urllib.request import *
 from sys import exit as exx, path as s_p
 from IPython.display import HTML, clear_output
