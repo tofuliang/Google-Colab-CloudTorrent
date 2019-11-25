@@ -14,7 +14,6 @@ def nameport(TOKEN, AUTO, PORT=10001):
         return "Invalid Token"
 
   if AUTO:
-    USR_Api = "mnc"
     tokens = {
         "ddn": "6qGnEsrCL4GqZ7hMfqpyz_7ejAThUCjVnU9gD5pbP5u",
         "tdn": "1Q4i7F6isO7zZRrrjBKZzZhwsMu_74yJqoEs1HrJh1zYyxNo1",
@@ -23,6 +22,7 @@ def nameport(TOKEN, AUTO, PORT=10001):
         "api002": "1Q45NXgsx6oyusN3GiNAYvkNJPS_AveYUDBcPHsvRvf21WZv",
         "api003": "1Q6smHt4Bzz9VEXTwj3a7p5Gdx2_5mp6ivT6N6nB3YmRHUEM3",
     }
+  USR_Api, _ = tokens.popitem()
   elif not TOKEN:
     from IPython import get_ipython
     ipython = get_ipython()
