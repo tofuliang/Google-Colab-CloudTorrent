@@ -13,7 +13,7 @@ function fail {
 function install {
 	#settings
 	USER="boypt"
-	PROG="simple-torrent"
+	PROG="cloud-torrent"
 	MOVE="true"
 	RELEASE="1.0.23"
 	INSECURE="false"
