@@ -3,4 +3,4 @@
 
 #Upload to Gdrive
 UP="${CLD_DIR}/${CLD_PATH}"
-cp "${UP}" /content/drive/My\ Drive/
+cp -r "${UP}" /content/drive/My\ Drive/
