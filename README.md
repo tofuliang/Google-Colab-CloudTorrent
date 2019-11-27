@@ -7,7 +7,7 @@
 - [x] Using serveo.net and ngrok to publish public server
 - [x] One command to unzip zip file.
 - [x] Upload data to MEGA/Google Drive (Account require)
-- [x] Using curl direct link downloader (Share link supported gdirve,disk.yandex)
+- [x] Using curl direct link downloader (Share link supported gdrive,disk.yandex)
 
 # Usage
 <br><b>Usage:</b>
