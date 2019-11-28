@@ -74,7 +74,7 @@ def accessSettingFile(file="", setting={}):
 
 def displayUrl(data):
     clear_output(wait=True)
-    print(f'Web UI: {data["url"]} : {data["port"]}')
+    print(f'Public URL: {data["url"]} : {data["port"]}')
 
 def findProcess(process, command="", isPid=False):
     from psutil import pids, Process
