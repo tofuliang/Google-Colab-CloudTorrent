@@ -4,7 +4,7 @@
 
 <b>Features:</b>
 - [x] Simple Torrent and peerflix-server remote torrent client
-- [x] Using serveo.net and ngrok to publish public server
+- [x] Using ngrok to publish public server
 - [x] One command to unzip zip file.
 - [x] Upload data to MEGA/Google Drive (Account require)
 - [x] Using curl direct link downloader (Share link supported gdrive,disk.yandex)
