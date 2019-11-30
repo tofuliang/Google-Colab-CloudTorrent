@@ -1,3 +1,5 @@
+<p align="center"><img src="https://raw.githubusercontent.com/biplobsd/Google-Colab-CloudTorrent/master/src/cover.png" alt="cover"></p>
+
 ![preview](https://raw.githubusercontent.com/biplobsd/Google-Colab-CloudTorrent/master/src/preview.gif)
 
 # Google-Colab-CloudTorrent
