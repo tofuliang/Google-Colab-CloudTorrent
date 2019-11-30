@@ -38,7 +38,10 @@ def nameport(TOKEN, AUTO, PORT=10001):
         return tkns
       
   if AUTO:
-    USR_Api, tkns = tokens.popitem()
+    try:
+      USR_Api, tkns = tokens.popitem()
+    except KeyError:
+      return "Invalid Token", PORT
   elif not TOKEN:
     if not 'your' in tokens.keys():
       from IPython import get_ipython
