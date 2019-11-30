@@ -2,19 +2,9 @@ import os
 from urllib.request import *
 from sys import exit as exx, path as s_p
 from IPython.display import HTML, clear_output
-
 from lxml.etree import XML
 
-def nameport(TOKEN, AUTO, PORT=10001):
-  tokens = {}
-  def selectApi(api):
-    try:
-        return tokens[api]
-    except:
-        return tkns
-
-  if AUTO:
-    tokens = {
+tokens = {
       "api1":"6qGnEsrCL4GqZ7hMfqpyz_7ejAThUCjVnU9gD5pbP5u",
       "api2":"1Q4i7F6isO7zZRrrjBKZzZhwsMu_74yJqoEs1HrJh1zYyxNo1",
       "api3":"1SCsbuawjv9d79jlhlfNljaFTaB_5heVkcR6C7Sk8UBaQ1U1C",
@@ -38,22 +28,32 @@ def nameport(TOKEN, AUTO, PORT=10001):
       "api26":"7ecmt2Kux5uYsTUHrrqGU_3W9CJnaSeSyxiwkjxNhHc",
       "api27":"3CqeFZQht43cG5Z2YKfyv_6aKTrgrbo1HtyRi78hRKK",
       "api28":"2DXURjrUhAZZNMhqN5m1F_6HHzejcfRecP8upwJnNBd",
-    }
+}
+
+def nameport(TOKEN, AUTO, PORT=10001):
+  def selectApi(api):
+    try:
+        return tokens[api]
+    except:
+        return tkns
+      
+  if AUTO:
     USR_Api, tkns = tokens.popitem()
   elif not TOKEN:
-    from IPython import get_ipython
-    ipython = get_ipython()
-    
-    print("Copy authtoken from https://dashboard.ngrok.com/auth")
-    __temp = ipython.magic('%sx read -p "Token :"')
-    tokens['your'] = __temp[0].split(':')[1]
-    USR_Api = "your"
-    clear_output()
+    if not 'your' in tokens.keys():
+      from IPython import get_ipython
+      ipython = get_ipython()
+
+      print("Copy authtoken from https://dashboard.ngrok.com/auth")
+      __temp = ipython.magic('%sx read -p "Token :"')
+      tokens['your'] = __temp[0].split(':')[1]
+      USR_Api = "your"
+      clear_output()
+    else:
+      USR_Api = "your"
   else:
     USR_Api = "mind"
     tokens["mind"] = TOKEN
-
-
   return selectApi(USR_Api), PORT
 
 def checkAvailable(path_="", userPath=False):
