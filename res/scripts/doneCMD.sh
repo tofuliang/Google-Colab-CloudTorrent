@@ -7,4 +7,5 @@ if [[ -d ${UP} ]]; then
 fi
 
 #Upload to Gdrive
-cp "${UP}" /content/drive/My\ Drive/${CLD_PATH}
+mkdir -p "/content/drive/My Drive/$(dirname "${CLD_PATH}")"
+cp "${UP}" "/content/drive/My Drive/${CLD_PATH}"
