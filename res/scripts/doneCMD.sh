@@ -1,6 +1,10 @@
 #!/bin/bash
 
+UP="${CLD_DIR}/${CLD_PATH}"
+
+if [[ -d ${UP} ]]; then
+  exit 0
+fi
 
 #Upload to Gdrive
-UP="${CLD_DIR}/${CLD_PATH}"
-cp -r "${UP}" /content/drive/My\ Drive/
+cp "${UP}" /content/drive/My\ Drive/${CLD_PATH}
