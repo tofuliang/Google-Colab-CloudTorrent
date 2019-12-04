@@ -1,16 +1,10 @@
 import os
-from urllib.request import *
-from sys import path as s_p
+import time
+import json
+import urllib.request
+from sys import exit as exx, path as s_p
 from IPython.display import HTML, clear_output
 from lxml.etree import XML
-
-def exx(echo=None):
-  from IPython import get_ipython
-  ipython = get_ipython()
-  
-  if echo:
-    print(echo)
-  return ipython.magic('!kill -9 -1 &')
 
 def startWEBserver(nServer, PORT, TOKEN, USE_FREE_TOKEN, btc='b'):
   try:
@@ -63,7 +57,6 @@ def ngrok_config(token):
 
 def startWebUi(data, nServer, btcC):
     tokens, WEB_PORT = data
-    from json import loads
 
     if tokens == "Invalid Token":
         print(tokens)
@@ -77,16 +70,16 @@ def startWebUi(data, nServer, btcC):
     runSh("ngrok start --all &", shell=True)
     time.sleep(7)
     try:
-        host = urllib.request.urlopen("http://localhost:4040/api/tunnels")
-        host = json.loads(host.read())['tunnels']
-        for h in host:
-          if h['name'] == nServer:
-            host = h['public_url'][8:]
-            break
+      host = urllib.request.urlopen("http://localhost:4040/api/tunnels")
+      host = json.loads(host.read())['tunnels']
+      for h in host:
+        if h['name'] == nServer:
+          host = h['public_url'][8:]
+          break
     except:
-        print("ngrok Token is in used!. Try another token ...")
-        time.sleep(2)
-        return True
+      print("ngrok Token is in used!. Try another token ...")
+      time.sleep(2)
+      return True
     
     data = {
         "url": f"http://{host}",
@@ -292,7 +285,7 @@ def updateCheck(self, Version):
 
       def getVersion(self, currentTag):
           url = self.URL
-          update = urlopen(url).read()
+          update = urllib.request.urlopen(url).read()
           root = XML(update)
           cur_version = root.find(".//"+currentTag)
           current = cur_version.text
@@ -300,7 +293,7 @@ def updateCheck(self, Version):
 
       def getMessage(self, messageTag):
           url = self.URL
-          update = urlopen(url).read()
+          update = urllib.request.urlopen(url).read()
           root = XML(update)
           mess = root.find(".//"+messageTag)
           message = mess.text
