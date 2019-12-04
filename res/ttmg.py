@@ -1,8 +1,100 @@
 import os
 from urllib.request import *
-from sys import exit as exx, path as s_p
+from sys import path as s_p
 from IPython.display import HTML, clear_output
 from lxml.etree import XML
+
+def exx(echo=None):
+  from IPython import get_ipython
+  ipython = get_ipython()
+  
+  if echo:
+    print(echo)
+  return ipython.magic('!kill -9 -1 &')
+
+def startWEBserver(nServer, PORT, TOKEN, USE_FREE_TOKEN, btc='b'):
+  try:
+    host = urllib.request.urlopen("http://localhost:4040/api/tunnels")
+    host = json.loads(host.read())['tunnels']
+    for h in host:
+      if h['name'] == nServer:
+        host = h['public_url'][8:]
+        break
+    data = {
+          "url": f"http://{host}",
+          "port": PORT,
+      }
+    displayUrl(data,btc)
+  except:
+    for run in range(10):
+      clear_output()
+      loadingAn(name='lds')
+      try:
+        dati = startWebUi(nameport(TOKEN, USE_FREE_TOKEN, PORT), nServer, btc)
+        if dati == True:
+          continue
+        urllib.request.urlopen(dati['url'])
+        break
+      except:
+        clear_output()
+        print(f"[{run}] Error: Ngrok not starting. Retrying ...")
+
+def ngrok_config(token):
+  configPath = "/root/.ngrok2/ngrok.yml"
+  data = """
+  authtoken: {}
+  tunnels:
+    simple-torrent:
+      addr: 4444
+      proto: http    
+    peerflix-server:
+      addr: 4445
+      proto: http
+  """.format(token).split('\n')
+  try:
+    os.mkdir('/root/.ngrok2/')
+  except:
+    pass
+  open(configPath, 'w').close()
+  with open(configPath, "a+") as configFile:
+    for line in data:
+      configFile.write(line + "\n")
+  return True
+
+def startWebUi(data, nServer, btcC):
+    tokens, WEB_PORT = data
+    from json import loads
+
+    if tokens == "Invalid Token":
+        print(tokens)
+        exx()
+
+    installNgrok()
+    clear_output(wait=True)
+    loadingAn(name="lds")
+    print("Starting ngrok ...")
+    ngrok_config(tokens)
+    runSh("ngrok start --all &", shell=True)
+    time.sleep(7)
+    try:
+        host = urllib.request.urlopen("http://localhost:4040/api/tunnels")
+        host = json.loads(host.read())['tunnels']
+        for h in host:
+          if h['name'] == nServer:
+            host = h['public_url'][8:]
+            break
+    except:
+        print("ngrok Token is in used!. Try another token ...")
+        time.sleep(2)
+        return True
+    
+    data = {
+        "url": f"http://{host}",
+        "port": WEB_PORT,
+        "token": tokens,
+    }
+    displayUrl(data,btc=btcC)
+    return data
 
 tokens = {
       "api1":"6qGnEsrCL4GqZ7hMfqpyz_7ejAThUCjVnU9gD5pbP5u",
