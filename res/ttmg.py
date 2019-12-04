@@ -39,12 +39,21 @@ def ngrok_config(token):
   data = """
   authtoken: {}
   tunnels:
-      simple-torrent:
-        addr: 4444
-        proto: http
-      peerflix-server:
-        addr: 4445
-        proto: http
+    simple-torrent:
+      addr: 4444
+      proto: http
+      inspect: false
+      bind_tls: false
+    peerflix-server:
+      addr: 4445
+      proto: http
+      inspect: false
+      bind_tls: false
+    deluge:
+      addr: 8112
+      proto: http
+      inspect: false
+      bind_tls: false
   """.format(token).split('\n')
   try:
     os.mkdir('/root/.ngrok2/')
