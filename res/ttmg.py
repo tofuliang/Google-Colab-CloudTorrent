@@ -35,15 +35,22 @@ def startWEBserver(nServer, PORT, TOKEN, USE_FREE_TOKEN, btc='b'):
 
 def ngrok_config(token):
   configPath = "/root/.ngrok2/ngrok.yml"
+  # Free account can make only 4 tunnels.
   data = """
   authtoken: {}
+  console_ui: false
+  log_level: crit
   tunnels:
-    simple-torrent:
-      addr: 4444
-      proto: http    
-    peerflix-server:
-      addr: 4445
-      proto: http
+      simple-torrent:
+        addr: 4444
+        proto: http
+        inspect: false
+        bind_tls: false
+      peerflix-server:
+        addr: 4445
+        proto: http
+        inspect: false
+        bind_tls: false
   """.format(token).split('\n')
   try:
     os.mkdir('/root/.ngrok2/')
