@@ -96,7 +96,7 @@ def accessSettingFile(file="", setting={}):
 
 def displayUrl(data,btc='b'):
     clear_output(wait=True)
-    showTxT = f'Public URL: {data["url"]} : {data["port"]}'
+    showTxT = f'Public URL: {data["url"]}'
     showUrL = data["url"]
     if btc == 'b':
           # blue
