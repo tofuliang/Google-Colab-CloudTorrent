@@ -38,8 +38,6 @@ def ngrok_config(token):
   # Free account can make only 4 tunnels.
   data = """
   authtoken: {}
-  console_ui: false
-  log_level: crit
   tunnels:
       simple-torrent:
         addr: 4444
