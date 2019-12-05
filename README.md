@@ -5,7 +5,7 @@
 # Google-Colab-CloudTorrent <img src="https://hitcounter.pythonanywhere.com/count/tag.svg?url=https%3A%2F%2Fgithub.com%2Fbiplobsd%2FGoogle-Colab-CloudTorrent" alt="Hits">
 
 <b>Features:</b>
-- [x] Simple Torrent and peerflix-server remote torrent client
+- [x] Simple Torrent, peerflix-server and deluge remote torrent client
 - [x] Using ngrok to publish public server
 - [x] Upload data to MEGA/Google Drive (Account require)
 - [x] Using curl direct link downloader (Share link supported gdrive,disk.yandex)
