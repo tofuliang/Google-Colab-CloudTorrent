@@ -1,5 +1,9 @@
 #!/bin/bash
 
+if ! [[ $AutoUP ]]; then
+  exit 0
+fi
+
 UP="${CLD_DIR}/${CLD_PATH}"
 
 if [[ -d ${UP} ]]; then
