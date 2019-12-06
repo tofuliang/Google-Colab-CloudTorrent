@@ -8,6 +8,7 @@
 - [x] Simple Torrent, peerflix-server and deluge remote torrent client
 - [x] Using ngrok to publish public server
 - [x] Upload data to MEGA/Google Drive (Account require)
+- [x] aria2 RPC and aria2ng WEBUI
 - [x] Using curl direct link downloader (Share link supported gdrive,disk.yandex)
 
 # Usage
