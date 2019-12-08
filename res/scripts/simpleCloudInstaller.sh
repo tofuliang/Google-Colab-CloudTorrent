@@ -12,10 +12,12 @@ function fail {
 }
 function install {
 	#settings
+	BASE_URL="https://github.com/boypt/simple-torrent"
+	LATEST_TAG=$(curl -s "${BASE_URL}/releases/latest" | sed -En 's/.+\/tag\/([.0-9A-Za-z]+)".+/\1/p')
 	USER="boypt"
 	PROG="cloud-torrent"
 	MOVE="true"
-	RELEASE="1.0.23"
+	RELEASE="$LATEST_TAG"
 	INSECURE="false"
 	OUT_DIR="/usr/local/bin"
 	GH="https://github.com"
@@ -62,19 +64,19 @@ function install {
 	FTYPE=""
 	case "${OS}_${ARCH}" in
 	"darwin_amd64")
-		URL="https://github.com/boypt/simple-torrent/releases/download/1.0.23/cloud-torrent_linux_amd64.gz"
+		URL="https://github.com/boypt/simple-torrent/releases/download/$LATEST_TAG/cloud-torrent_linux_amd64.gz"
 		FTYPE=".gz"
 		;;
 	"linux_386")
-		URL="https://github.com/boypt/simple-torrent/releases/download/1.0.23/cloud-torrent_linux_386.gz"
+		URL="https://github.com/boypt/simple-torrent/releases/download/$LATEST_TAG/cloud-torrent_linux_386.gz"
 		FTYPE=".gz"
 		;;
 	"linux_amd64")
-		URL="https://github.com/boypt/simple-torrent/releases/download/1.0.23/cloud-torrent_linux_amd64.gz"
+		URL="https://github.com/boypt/simple-torrent/releases/download/$LATEST_TAG/cloud-torrent_linux_amd64.gz"
 		FTYPE=".gz"
 		;;
 	"linux_arm")
-		URL="https://github.com/boypt/simple-torrent/releases/download/1.0.23/cloud-torrent_linux_arm.gz"
+		URL="https://github.com/boypt/simple-torrent/releases/download/$LATEST_TAG/cloud-torrent_linux_arm.gz"
 		FTYPE=".gz"
 		;;
 	*) fail "No asset for platform ${OS}-${ARCH}";;
