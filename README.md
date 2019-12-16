@@ -9,7 +9,7 @@
 - [x] Using ngrok to publish public server
 - [x] Upload data to MEGA/Google Drive (Account require)
 - [x] aria2 RPC and ariang WEBUI
-- [x] Using curl direct link downloader (Share link supported gdrive,disk.yandex)
+- [x] Using aria2 direct link downloader (Share link supported gdrive,disk.yandex, youtube ... etc)
 
 # Usage
 1. Click on the "Open in Colab" button.
