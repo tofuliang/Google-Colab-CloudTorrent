@@ -1,10 +1,5 @@
-import os
-import time
-import json
-import urllib.request
 from sys import exit as exx, path as s_p
-from IPython.display import HTML, clear_output
-from lxml.etree import XML
+
 
 tokens = {
       "api1":"6qGnEsrCL4GqZ7hMfqpyz_7ejAThUCjVnU9gD5pbP5u",
@@ -32,34 +27,151 @@ tokens = {
       "api28":"2DXURjrUhAZZNMhqN5m1F_6HHzejcfRecP8upwJnNBd",
 }
 
-def nameport(TOKEN, AUTO, PORT=10001):
-  def selectApi(api):
-    try:
-        return tokens[api]
-    except:
-        return tkns
-      
-  if AUTO:
-    try:
-      USR_Api, tkns = tokens.popitem()
-    except KeyError:
-      return "Invalid Token", PORT
-  elif not TOKEN:
-    if not 'your' in tokens.keys():
-      from IPython import get_ipython
-      ipython = get_ipython()
+class ngrok:
 
-      print("Copy authtoken from https://dashboard.ngrok.com/auth")
-      __temp = ipython.magic('%sx read -p "Token :"')
-      tokens['your'] = __temp[0].split(':')[1]
-      USR_Api = "your"
-      clear_output()
+
+  def __init__(self, TOKEN=None, USE_FREE_TOKEN=True,  
+               S1d=['Service1', 80], S2d=['Service2', 8080], pCal='http', region='us',
+               dBug=["/root/.ngrok2/ngrok.yml", 4040]):
+    self.region = region
+    self.configPath, self.dport = dBug
+    self.TOKEN = TOKEN
+    self.USE_FREE_TOKEN = USE_FREE_TOKEN
+    self.S1d = S1d
+    self.S2d = S2d
+    self.pCal = pCal
+  
+  
+  def nameport(self, TOKEN, AUTO):
+    if AUTO:
+        try:
+            return tokens.popitem()[1]
+        except KeyError:
+            return "Invalid Token"
+    elif not TOKEN:
+        if not 'your' in tokens.keys():
+            from IPython import get_ipython
+            from IPython.display import clear_output
+            ipython = get_ipython()
+
+            print(r"Copy authtoken from https://dashboard.ngrok.com/auth")
+            __temp = ipython.magic('%sx read -p "Token :"')
+            tokens['your'] = __temp[0].split(':')[1]
+            USR_Api = "your"
+            clear_output()
+        else:
+            USR_Api = "your"
     else:
-      USR_Api = "your"
-  else:
-    USR_Api = "mind"
-    tokens["mind"] = TOKEN
-  return selectApi(USR_Api), PORT
+        USR_Api = "mind"
+        tokens["mind"] = TOKEN
+    return tokens(USR_Api)
+
+
+  def ngrok_config(
+    self, token, Gport, configPath, region, S1d,
+    S2d, pCal
+    ):
+    import os
+
+    S1n, S1p, = S1d
+    S2n, S2p, = S2d
+    data = """
+    authtoken: {0}
+    region: {1}
+    update: false
+    update_channel: stable
+    web_addr: localhost:{2}
+    tunnels:
+        {3}:
+            addr: {4}
+            proto: {7}
+            inspect: false
+        {5}:
+            addr: {6}
+            proto: {7}
+            inspect: false
+    """.format(token, region, Gport, S1n, S1p, S2n, S2p, pCal).split('\n')
+    try:
+        os.mkdir('/root/.ngrok2/')
+    except:
+        pass
+    open(configPath, 'w').close()
+    with open(configPath, "a+") as configFile:
+        for line in data:
+            configFile.write(line + "\n")
+    return True  
+
+
+  def startWebUi(self, token, dport, nServer, region, btc, configPath,
+               displayB, S1d, S2d, pCal):
+    import os, time, urllib
+    from IPython.display import clear_output
+    from json import loads
+
+    if token == "Invalid Token":
+        print(tokens)
+        os.exit()
+
+    installNgrok()
+    clear_output(wait=True)
+    loadingAn(name="lds")
+    print("Starting ngrok ...")
+    self.ngrok_config(token, dport, configPath, region, S1d, S2d, pCal)
+    runSh(f"ngrok start --config {configPath} --all &", shell=True)
+    time.sleep(7)
+    try:
+        host = urllib.request.urlopen(f"http://localhost:{dport}/api/tunnels")
+        host = loads(host.read())['tunnels']
+        for h in host:
+          if h['name'] == nServer:
+            host = h['public_url'][8:]
+            break
+    except urllib.error.URLError:
+        print("ngrok Token is in used!. Try another token ...")
+        time.sleep(2)
+        return True
+    
+    data = {"url": f"http://{host}"}
+    if displayB:
+      displayUrl(data, btc)
+    return data
+
+
+  def start(self, nServer, btc='b', displayB=True):
+    import urllib
+    from IPython.display import clear_output
+    from json import loads
+
+    try:
+      host = urllib.request.urlopen(f"http://localhost:{self.dport}/api/tunnels")
+      host = loads(host.read())['tunnels']
+      for h in host:
+        if h['name'] == nServer:
+          host = h['public_url'][8:]
+          data = {"url": f"http://{host}"}
+          if displayB:
+            displayUrl(data, btc)
+          return data
+      raise Exception('Not found tunnels')
+    except urllib.error.URLError:
+      for run in range(10):
+        clear_output()
+        loadingAn(name='lds')
+        dati = self.startWebUi(
+            self.nameport(self.TOKEN, self.USE_FREE_TOKEN),
+            self.dport,
+            nServer,
+            self.region,
+            btc,
+            self.configPath,
+            displayB,
+            self.S1d,
+            self.S2d,
+            self.pCal
+            )
+        if dati == True:
+            continue
+        return dati
 
 def checkAvailable(path_="", userPath=False):
     from os import path as _p
@@ -95,6 +207,8 @@ def accessSettingFile(file="", setting={}):
 
 
 def displayUrl(data,btc='b'):
+    from IPython.display import HTML, clear_output
+
     clear_output(wait=True)
     showTxT = f'Public URL: {data["url"]}'
     showUrL = data["url"]
@@ -188,6 +302,8 @@ def runSh(args, *, output=False, shell=False, cd=None):
         return subprocess.run(args, shell=True, cwd=cd).returncode 
 
 def loadingAn(name="cal"):
+      from IPython.display import HTML
+
       if name == "cal":
           return display(HTML('<style>.lds-ring {   display: inline-block;   position: relative;   width: 34px;   height: 34px; } .lds-ring div {   box-sizing: border-box;   display: block;   position: absolute;   width: 34px;   height: 34px;   margin: 4px;   border: 5px solid #cef;   border-radius: 50%;   animation: lds-ring 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;   border-color: #cef transparent transparent transparent; } .lds-ring div:nth-child(1) {   animation-delay: -0.45s; } .lds-ring div:nth-child(2) {   animation-delay: -0.3s; } .lds-ring div:nth-child(3) {   animation-delay: -0.15s; } @keyframes lds-ring {   0% {     transform: rotate(0deg);   }   100% {     transform: rotate(360deg);   } }</style><div class="lds-ring"><div></div><div></div><div></div><div></div></div>'))
       elif name == "lds":
@@ -201,16 +317,22 @@ def updateCheck(self, Version):
           getVersion = self.getVersion
 
       def getVersion(self, currentTag):
+          from urllib.request import urlopen
+          from lxml.etree import XML
+
           url = self.URL
-          update = urllib.request.urlopen(url).read()
+          update = urlopen(url).read()
           root = XML(update)
           cur_version = root.find(".//"+currentTag)
           current = cur_version.text
           return current
 
       def getMessage(self, messageTag):
+          from urllib.request import urlopen
+          from lxml.etree import XML
+
           url = self.URL
-          update = urllib.request.urlopen(url).read()
+          update = urlopen(url).read()
           root = XML(update)
           mess = root.find(".//"+messageTag)
           message = mess.text
