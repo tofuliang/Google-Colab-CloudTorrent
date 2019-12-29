@@ -1,5 +1,7 @@
+import os
 from sys import exit as exx, path as s_p
-
+HOME = os.path.expanduser("~")
+CWD = f'{os.getcwd()}/'
 
 tokens = {
       "api1":"6qGnEsrCL4GqZ7hMfqpyz_7ejAThUCjVnU9gD5pbP5u",
@@ -31,14 +33,13 @@ class ngrok:
 
 
   def __init__(self, TOKEN=None, USE_FREE_TOKEN=True,  
-               S1d=['Service1', 80], S2d=['Service2', 8080], pCal='http', region='us',
-               dBug=["/root/.ngrok2/ngrok.yml", 4040]):
+               service=[['Service1', 80, 'tcp'], ['Service2', 8080, 'tcp']], pCal='http', region='us',
+               dBug=[f"{HOME}/.ngrok2/ngrok.yml", 4040]):
     self.region = region
     self.configPath, self.dport = dBug
     self.TOKEN = TOKEN
     self.USE_FREE_TOKEN = USE_FREE_TOKEN
-    self.S1d = S1d
-    self.S2d = S2d
+    self.service = service
     self.pCal = pCal
   
   
@@ -67,32 +68,26 @@ class ngrok:
     return tokens(USR_Api)
 
 
-  def ngrok_config(
-    self, token, Gport, configPath, region, S1d,
-    S2d, pCal
-    ):
+  def ngrok_config(self, token, Gport, configPath, region, service):
     import os
 
-    S1n, S1p, = S1d
-    S2n, S2p, = S2d
     data = """
-    authtoken: {0}
-    region: {1}
+    authtoken: {}
+    region: {}
     update: false
     update_channel: stable
-    web_addr: localhost:{2}
-    tunnels:
-        {3}:
-            addr: {4}
-            proto: {7}
-            inspect: false
-        {5}:
-            addr: {6}
-            proto: {7}
-            inspect: false
-    """.format(token, region, Gport, S1n, S1p, S2n, S2p, pCal).split('\n')
+    web_addr: localhost:{}
+    tunnels:""".format(token, region, Gport).split('\n')
+    tunnels = ""
+    for S in service:
+        Sn, Sp, SpC = S
+        tunnels += """    {}:
+            addr: {}
+            proto: {}
+            inspect: false\n""".format(Sn, Sp, SpC)
+    data = data + tunnels.split('\n')
     try:
-        os.mkdir('/root/.ngrok2/')
+        os.mkdir(f'{HOME}/.ngrok2/')
     except:
         pass
     open(configPath, 'w').close()
@@ -103,7 +98,7 @@ class ngrok:
 
 
   def startWebUi(self, token, dport, nServer, region, btc, configPath,
-               displayB, S1d, S2d, pCal):
+               displayB, service):
     import os, time, urllib
     from IPython.display import clear_output
     from json import loads
@@ -116,7 +111,7 @@ class ngrok:
     clear_output(wait=True)
     loadingAn(name="lds")
     print("Starting ngrok ...")
-    self.ngrok_config(token, dport, configPath, region, S1d, S2d, pCal)
+    self.ngrok_config(token, dport, configPath, region, service)
     runSh(f"ngrok start --config {configPath} --all &", shell=True)
     time.sleep(7)
     try:
@@ -165,9 +160,7 @@ class ngrok:
             btc,
             self.configPath,
             displayB,
-            self.S1d,
-            self.S2d,
-            self.pCal
+            self.service
             )
         if dati == True:
             continue
@@ -261,7 +254,7 @@ def installNgrok():
         )
         runSh("unzip -qq -n ngrok-stable-linux-amd64.zip")
         runSh("mv ngrok /usr/local/bin/ngrok")
-        runSh("rm -f /content/ngrok-stable-linux-amd64.zip")
+        runSh(f"rm -f {CWD}/ngrok-stable-linux-amd64.zip")
 
 def installAutoSSH():
     if checkAvailable("/usr/bin/autossh"):
