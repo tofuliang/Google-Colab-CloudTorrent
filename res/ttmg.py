@@ -64,7 +64,7 @@ class ngrok:
     else:
         USR_Api = "mind"
         tokens["mind"] = TOKEN
-    return tokens(USR_Api)
+    return tokens[USR_Api]
 
 
   def ngrok_config(self, token, Gport, configPath, region, service):
