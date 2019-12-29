@@ -40,7 +40,6 @@ class ngrok:
     self.TOKEN = TOKEN
     self.USE_FREE_TOKEN = USE_FREE_TOKEN
     self.service = service
-    self.pCal = pCal
   
   
   def nameport(self, TOKEN, AUTO):
