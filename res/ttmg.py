@@ -67,7 +67,7 @@ class ngrok:
     return tokens(USR_Api)
 
 
-  def ngrok_config(token, Gport, configPath, region, service):
+  def ngrok_config(self, token, Gport, configPath, region, service):
     import os
 
     data = """
