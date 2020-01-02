@@ -1,7 +1,7 @@
 import os
 from sys import exit as exx, path as s_p
 HOME = os.path.expanduser("~")
-CWD = f'{os.getcwd()}/'
+CWD = os.getcwd()
 
 tokens = {
       "api1":"6qGnEsrCL4GqZ7hMfqpyz_7ejAThUCjVnU9gD5pbP5u",
@@ -30,7 +30,6 @@ tokens = {
 }
 
 class ngrok:
-
 
   def __init__(self, TOKEN=None, USE_FREE_TOKEN=True,  
                service=[['Service1', 80, 'tcp'], ['Service2', 8080, 'tcp']], region='us',
@@ -336,6 +335,8 @@ def updateCheck(self, Version):
     message = check.getMessage("message")
 
     if Version != currentVersion:
+        from IPython.display import HTML
+        
         print("Script Update Checker: Version "+currentVersion+" "+message+" Your version: "+Version+"")
         display(HTML('<div style="background-color: #4caf50!important;text-align: center;padding-top:-1px;padding-bottom: 9px;boder:1px"><h4 style="padding-top:5px"><a target="_blank" href="http://bit.ly/updateCscript" style="color: #fff!important;text-decoration: none;color: inherit;background-color:transparent;font-family: Segoe UI,Arial,sans-serif;font-weight: 400;font-size: 20px;">Open Latest Version</a></h4></div>'))
         return True
