@@ -69,7 +69,7 @@ class ngrok:
   def ngrok_config(self, token, Gport, configPath, region, service):
     import os
 
-    data = r"""
+    data = """
     authtoken: {}
     region: {}
     update: false
