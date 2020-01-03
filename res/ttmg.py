@@ -75,7 +75,7 @@ class ngrok:
     update: false
     update_channel: stable
     web_addr: localhost:{}
-    tunnels:""".format(token, region, Gport).split('\n')
+    tunnels:""".format(token, region, Gport)
     tunnels = ""
     for S in service:
         Sn, Sp, SpC = S
@@ -83,15 +83,10 @@ class ngrok:
         addr: {}
         proto: {}
         inspect: false\n""".format(Sn, Sp, SpC)
-    data = data + tunnels.split('\n')
-    try:
-        os.mkdir(f'{HOME}/.ngrok2/')
-    except:
-        pass
-    open(configPath, 'w').close()
-    with open(configPath, "a+") as configFile:
-        for line in data:
-            configFile.write(line + "\n")
+    data = data + tunnels
+    os.makedirs(f'{HOME}/.ngrok2/', exist_ok=True)
+    with open(configPath, "w+") as configFile:
+        configFile.write(data)
     return True  
 
 
