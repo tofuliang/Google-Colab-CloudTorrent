@@ -69,13 +69,13 @@ class ngrok:
   def ngrok_config(self, token, Gport, configPath, region, service):
     import os
 
-    data = """
+    data = r"""
     authtoken: {}
     region: {}
     update: false
     update_channel: stable
     web_addr: localhost:{}
-    tunnels:""".format(token, region, Gport)
+    tunnels:\n""".format(token, region, Gport)
     tunnels = ""
     for S in service:
         Sn, Sp, SpC = S
