@@ -75,7 +75,7 @@ class ngrok:
     update: false
     update_channel: stable
     web_addr: localhost:{}
-    tunnels:""".format(token, region, Gport).split('\n')
+    tunnels:\n""".format(token, region, Gport)
     tunnels = ""
     for S in service:
         Sn, Sp, SpC = S
@@ -83,15 +83,10 @@ class ngrok:
         addr: {}
         proto: {}
         inspect: false\n""".format(Sn, Sp, SpC)
-    data = data + tunnels.split('\n')
-    try:
-        os.mkdir(f'{HOME}/.ngrok2/')
-    except:
-        pass
-    open(configPath, 'w').close()
-    with open(configPath, "a+") as configFile:
-        for line in data:
-            configFile.write(line + "\n")
+    data = data + tunnels
+    os.makedirs(f'{HOME}/.ngrok2/', exist_ok=True)
+    with open(configPath, "w+") as configFile:
+        configFile.write(data)
     return True  
 
 
@@ -108,7 +103,7 @@ class ngrok:
     installNgrok()
     clear_output(wait=True)
     loadingAn(name="lds")
-    print("Starting ngrok ...")
+    print("Starting ngrok...")
     self.ngrok_config(token, dport, configPath, region, service)
     runSh(f"ngrok start --config {configPath} --all &", shell=True)
     time.sleep(7)
@@ -120,7 +115,7 @@ class ngrok:
             host = h['public_url'][8:]
             break
     except urllib.error.URLError:
-        print("ngrok Token is in used!. Try another token ...")
+        print("ngrok Token is in used!. Trying another token...")
         time.sleep(2)
         return True
     
