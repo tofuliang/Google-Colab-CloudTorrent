@@ -116,7 +116,8 @@ class ngrok:
             break
     except urllib.error.URLError:
         clear_output()
-        textAn("ngrok Token is in used!. Trying another token...")
+        loadingAn(name="lds")
+        textAn("ngrok Token is in used!. Trying another token...", ty='twg')
         time.sleep(2)
         return True
     
