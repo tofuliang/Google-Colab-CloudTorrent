@@ -101,9 +101,9 @@ class ngrok:
         os.exit()
 
     installNgrok()
-    clear_output(wait=True)
+    clear_output()
     loadingAn(name="lds")
-    print("Starting ngrok...")
+    textAn("Starting ngrok...")
     self.ngrok_config(token, dport, configPath, region, service)
     runSh(f"ngrok start --config {configPath} --all &", shell=True)
     time.sleep(7)
@@ -115,7 +115,8 @@ class ngrok:
             host = h['public_url'][8:]
             break
     except urllib.error.URLError:
-        print("ngrok Token is in used!. Trying another token...")
+        clear_output()
+        textAn("ngrok Token is in used!. Trying another token...")
         time.sleep(2)
         return True
     
