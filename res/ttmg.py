@@ -197,7 +197,7 @@ def accessSettingFile(file="", setting={}):
 def displayUrl(data, btc='b', pNamU='Public URL: ', EcUrl=None):
     from IPython.display import HTML, clear_output
 
-    clear_output(wait=True)
+    clear_output()
     showTxT = f'{pNamU}{data["url"]}'
     if not EcUrl:
       showUrL = data["url"]
