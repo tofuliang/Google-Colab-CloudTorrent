@@ -103,7 +103,7 @@ class ngrok:
     installNgrok()
     clear_output()
     loadingAn(name="lds")
-    textAn("Starting ngrok...")
+    print("Starting ngrok...")
     self.ngrok_config(token, dport, configPath, region, service)
     runSh(f"ngrok start --config {configPath} --all &", shell=True)
     time.sleep(7)
