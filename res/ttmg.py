@@ -194,15 +194,17 @@ def accessSettingFile(file="", setting={}):
         print(f"Error accessing the file: {fullPath}.")
 
 
-def displayUrl(data, btc='b', pNamU='Public URL: ', EcUrl=None):
+def displayUrl(data, btc='b', pNamU='Public URL: ', EcUrl=None, ExUrl=None):
     from IPython.display import HTML, clear_output
 
     clear_output()
     showTxT = f'{pNamU}{data["url"]}'
-    if not EcUrl:
-      showUrL = data["url"]
-    else:
+    if EcUrl:
       showUrL = data["url"]+EcUrl
+    elif ExUrl:
+      showUrL = ExUrl
+    else:
+      showUrL = data["url"]
     if btc == 'b':
           # blue
           bttxt = 'hsla(210, 50%, 85%, 1)'
