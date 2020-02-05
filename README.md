@@ -17,6 +17,8 @@
 - [x] Netdata
 - [x] Cloud Commander
 - [x] Ssh and noVnc
+- [x] filebrowser
+- [x] µTorrent
 
 
 
