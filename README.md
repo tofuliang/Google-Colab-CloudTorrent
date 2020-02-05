@@ -6,7 +6,7 @@
 
 <b>Features:</b>
 - [x] Simple Torrent, peerflix-server and deluge remote torrent client
-- [x] Using ngrok to publish public server
+- [x] Using ngrok to publish public server (one free ngrok authtoken enough for all)
 - [x] Upload data to MEGA/Google Drive (Account require)
 - [x] aria2 RPC and ariang WEBUI
 - [x] Using aria2 direct link downloader (Share link supported gdrive,disk.yandex, youtube ... etc)
