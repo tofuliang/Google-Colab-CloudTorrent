@@ -13,7 +13,12 @@ function fail {
 function install {
 	#settings
 	BASE_URL="https://github.com/boypt/simple-torrent"
-	LATEST_TAG=$(curl -s "${BASE_URL}/releases/latest" | sed -En 's/.+\/tag\/([.0-9A-Za-z]+)".+/\1/p')
+	if [ -z "$1" ]
+	then
+		LATEST_TAG=$(curl -s "${BASE_URL}/releases/latest" | sed -En 's/.+\/tag\/([.0-9A-Za-z]+)".+/\1/p')
+	else
+		LATEST_TAG="$1"
+	fi
 	USER="boypt"
 	PROG="cloud-torrent"
 	MOVE="true"
@@ -124,4 +129,4 @@ function install {
 	#done
 	cleanup
 }
-install
+install "$1"
