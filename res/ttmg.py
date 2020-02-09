@@ -91,7 +91,7 @@ class ngrok:
 
 
   def startWebUi(self, token, dport, nServer, region, btc, configPath,
-               displayB, service):
+               displayB, service, v):
     import os, time, urllib
     from IPython.display import clear_output
     from json import loads
@@ -101,9 +101,10 @@ class ngrok:
         os.exit()
 
     installNgrok()
-    clear_output()
-    loadingAn(name="lds")
-    textAn("Starting ngrok...", ty='twg')
+    if v:
+      clear_output()
+      loadingAn(name="lds")
+      textAn("Starting ngrok...", ty='twg')
     self.ngrok_config(token, dport, configPath, region, service)
     runSh(f"ngrok start --config {configPath} --all &", shell=True)
     time.sleep(7)
@@ -115,9 +116,10 @@ class ngrok:
             host = h['public_url'][8:]
             break
     except urllib.error.URLError:
-        clear_output()
-        loadingAn(name="lds")
-        textAn("ngrok Token is in used!. Trying another token...", ty='twg')
+        if v:
+          clear_output()
+          loadingAn(name="lds")
+          textAn("ngrok Token is in used!. Trying another token...", ty='twg')
         time.sleep(2)
         return True
     
@@ -127,7 +129,7 @@ class ngrok:
     return data
 
 
-  def start(self, nServer, btc='b', displayB=True):
+  def start(self, nServer, btc='b', displayB=True, v=True):
     import urllib
     from IPython.display import clear_output
     from json import loads
@@ -145,8 +147,9 @@ class ngrok:
       raise Exception('Not found tunnels')
     except urllib.error.URLError:
       for run in range(10):
-        clear_output()
-        loadingAn(name='lds')
+        if v:
+          clear_output()
+          loadingAn(name='lds')
         dati = self.startWebUi(
             self.nameport(self.TOKEN, self.USE_FREE_TOKEN),
             self.dport,
@@ -155,7 +158,8 @@ class ngrok:
             btc,
             self.configPath,
             displayB,
-            self.service
+            self.service,
+            v
             )
         if dati == True:
             continue
