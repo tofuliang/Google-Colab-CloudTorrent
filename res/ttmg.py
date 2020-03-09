@@ -144,7 +144,7 @@ class ngrok:
     else:
       self.ngrok_config(token, dport, configPath, region, service)
       runSh(f"ngrok start --config {configPath} --all &", shell=True)
-    time.sleep(7)
+    time.sleep(3)
     try:
         if self.USE_FREE_TOKEN:
           dport = self.sdict[nServer][0]
