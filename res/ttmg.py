@@ -200,7 +200,7 @@ class ngrok:
           clear_output()
           loadingAn(name='lds')
         dati = self.startWebUi(
-            self.nameport(self.TOKEN, self.USE_FREE_TOKEN),
+            self.nameport(self.TOKEN, self.USE_FREE_TOKEN) if not self.USE_FREE_TOKEN else {},
             self.dport,
             nServerbk,
             self.region,
@@ -247,10 +247,11 @@ def accessSettingFile(file="", setting={}):
         print(f"Error accessing the file: {fullPath}.")
 
 
-def displayUrl(data, btc='b', pNamU='Public URL: ', EcUrl=None, ExUrl=None):
+def displayUrl(data, btc='b', pNamU='Public URL: ', EcUrl=None, ExUrl=None, cls=True):
     from IPython.display import HTML, clear_output
 
-    clear_output()
+    if cls:
+        clear_output()
     showTxT = f'{pNamU}{data["url"]}'
     if EcUrl:
       showUrL = data["url"]+EcUrl
