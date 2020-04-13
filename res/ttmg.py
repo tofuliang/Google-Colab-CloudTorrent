@@ -135,7 +135,7 @@ class ngrok:
     if v:
       clear_output()
       loadingAn(name="lds")
-      textAn("Starting ngrok...", ty='twg')
+      textAn("Starting ngrok ...", ty='twg')
     if self.USE_FREE_TOKEN:
       for sn in service:
         self.ngrok_config(
@@ -166,7 +166,7 @@ class ngrok:
         if v:
           clear_output()
           loadingAn(name="lds")
-          textAn("ngrok Token is in used!. Trying another token...", ty='twg')
+          textAn("Ngrok Token is in used!. Again trying token ...", ty='twg')
         time.sleep(2)
         return True
 
@@ -425,7 +425,7 @@ class LocalhostRun:
     self.port=port
     self.interval=interval
     self.retries=retries
-    
+
   def start(self):
     if self.connection:self.connection.kill()
     self.connection=Popen(f"ssh -R 80:localhost:{self.port} {self.id}@ssh.localhost.run -o StrictHostKeyChecking=no".split(), stdout=PIPE, stdin=PIPE)
@@ -433,7 +433,7 @@ class LocalhostRun:
       return re.findall("http://(.*?.localhost.run)",self.connection.stdout.readline().decode("utf-8"))[0]
     except:
       raise Exception(self.connection.stdout.readline().decode("utf-8"))
-    
+
   def keep_alive(self):
     if self.connection:self.connection.kill()
     self.connection=Popen(f"ssh -R 80:localhost:{self.port} {self.id}@ssh.localhost.run -o StrictHostKeyChecking=no -o ServerAliveInterval={self.interval} -o ServerAliveCountMax={self.retries}".split(), stdout=PIPE, stdin=PIPE)
@@ -442,28 +442,42 @@ class LocalhostRun:
       return re.findall("http://(.*?.localhost.run)",self.connection.stdout.readline().decode("utf-8"))[0]
     except:
       raise Exception(self.connection.stdout.readline().decode("utf-8"))
-    
+
   def kill(self):
     self.connection.kill()
 
 
 class PortForward:
-  def __init__(self,connections,region=None,TOKEN=None,USE_FREE_TOKEN=None,config=None):
+  def __init__(self,connections,region=None,SERVICE="localhost",TOKEN=None,USE_FREE_TOKEN=None,config=None):
     c=dict()
     for con in connections:
       c[con[0]]=dict(port=con[1],proto=con[2])
     self.connections=c
     self.ngrok=ngrok(TOKEN,USE_FREE_TOKEN,connections,region,config)
-    
-  def start(self,name,displayB=None):
-    con=self.connections[name]
-    port=con["port"]
-    proto=con["proto"]
-    if(proto=="tcp"):
-      return self.ngrok.start(name)
-    else:return dict(url="http://"+LocalhostRun(port).keep_alive())
+    self.SERVICE = SERVICE
 
-    
+  def start(self,name,btc='b',displayB=True,v=True):
+    from IPython.display import clear_output
+
+    if self.SERVICE == "localhost":
+        con=self.connections[name]
+        port=con["port"]
+        proto=con["proto"]
+        if(proto=="tcp"):
+          return self.ngrok.start(name,btc,displayB,v)
+        else:
+          if v:
+              loadingAn(name="lds")
+              textAn("Starting localhost ...", ty="twg")
+          data = dict(url="http://"+LocalhostRun(port).keep_alive())
+          if v: clear_output()
+          if displayB:
+              displayUrl(data, btc)
+          return data
+    elif self.SERVICE == "ngrok":
+        return self.ngrok.start(name,btc,displayB,v)
+
+
 class PortForward_wrapper(PortForward):
-  def __init__(self,TOKEN,USE_FREE_TOKEN,connections,region,config):
-    super(self.__class__,self).__init__(connections,region,TOKEN,USE_FREE_TOKEN,config)
+  def __init__(self,SERVICE,TOKEN,USE_FREE_TOKEN,connections,region,config):
+    super(self.__class__,self).__init__(connections,region,SERVICE,TOKEN,USE_FREE_TOKEN,config)
