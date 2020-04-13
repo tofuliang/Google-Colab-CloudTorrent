@@ -1,5 +1,10 @@
 import os
 from sys import exit as exx
+import time
+import uuid
+import re
+from subprocess import Popen,PIPE
+
 HOME = os.path.expanduser("~")
 CWD = os.getcwd()
 
@@ -411,3 +416,54 @@ def updateCheck(self, Version):
         return True
     else:
         print("Script Update Checker: Your script is up to date")
+
+class LocalhostRun:
+  def __init__(self,port,id=None,interval=30,retries=30):
+    if not id:id=str(uuid.uuid4())[:8]
+    self.connection=None
+    self.id=id
+    self.port=port
+    self.interval=interval
+    self.retries=retries
+    
+  def start(self):
+    if self.connection:self.connection.kill()
+    self.connection=Popen(f"ssh -R 80:localhost:{self.port} {self.id}@ssh.localhost.run -o StrictHostKeyChecking=no".split(), stdout=PIPE, stdin=PIPE)
+    try:
+      return re.findall("http://(.*?.localhost.run)",self.connection.stdout.readline().decode("utf-8"))[0]
+    except:
+      raise Exception(self.connection.stdout.readline().decode("utf-8"))
+    
+  def keep_alive(self):
+    if self.connection:self.connection.kill()
+    self.connection=Popen(f"ssh -R 80:localhost:{self.port} {self.id}@ssh.localhost.run -o StrictHostKeyChecking=no -o ServerAliveInterval={self.interval} -o ServerAliveCountMax={self.retries}".split(), stdout=PIPE, stdin=PIPE)
+    #print("ssh -R 80:localhost:{self.port} {self.id}@ssh.localhost.run -o StrictHostKeyChecking=no -o ServerAliveInterval={self.interval} -o ServerAliveCountMax={self.retries}")
+    try:
+      return re.findall("http://(.*?.localhost.run)",self.connection.stdout.readline().decode("utf-8"))[0]
+    except:
+      raise Exception(self.connection.stdout.readline().decode("utf-8"))
+    
+  def kill(self):
+    self.connection.kill()
+
+
+class PortForward:
+  def __init__(self,connections,region=None,TOKEN=None,USE_FREE_TOKEN=None,config=None):
+    c=dict()
+    for con in connections:
+      c[con[0]]=dict(port=con[1],proto=con[2])
+    self.connections=c
+    self.ngrok=ngrok(TOKEN,USE_FREE_TOKEN,connections,region,config)
+    
+  def start(self,name,displayB=None):
+    con=self.connections[name]
+    port=con["port"]
+    proto=con["proto"]
+    if(proto=="tcp"):
+      return self.ngrok.start(name)
+    else:return dict(url="http://"+LocalhostRun(port).keep_alive())
+
+    
+class PortForward_wrapper(PortForward):
+  def __init__(self,TOKEN,USE_FREE_TOKEN,connections,region,config):
+    super(self.__class__,self).__init__(connections,region,TOKEN,USE_FREE_TOKEN,config)
