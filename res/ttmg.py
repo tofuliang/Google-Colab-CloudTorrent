@@ -135,7 +135,7 @@ class ngrok:
     if v:
       clear_output()
       loadingAn(name="lds")
-      textAn("Starting ngrok...", ty='twg')
+      textAn("Starting ngrok ...", ty='twg')
     if self.USE_FREE_TOKEN:
       for sn in service:
         self.ngrok_config(
@@ -166,7 +166,7 @@ class ngrok:
         if v:
           clear_output()
           loadingAn(name="lds")
-          textAn("ngrok Token is in used!. Trying another token...", ty='twg')
+          textAn("Ngrok Token is in used!. Again trying token ...", ty='twg')
         time.sleep(2)
         return True
 
@@ -231,17 +231,17 @@ def checkAvailable(path_="", userPath=False):
             else _p.exists(f"/usr/local/sessionSettings/{path_}")
         )
 
-def accessSettingFile(file="", setting={}):
+def accessSettingFile(file="", setting={}, v=True):
     from json import load, dump
 
     if not isinstance(setting, dict):
-        print("Only accept Dictionary object.")
+        if v:print("Only accept Dictionary object.")
         exx()
     fullPath = f"/usr/local/sessionSettings/{file}"
     try:
         if not len(setting):
             if not checkAvailable(fullPath):
-                print(f"File unavailable: {fullPath}.")
+                if v:print(f"File unavailable: {fullPath}.")
                 exx()
             with open(fullPath) as jsonObj:
                 return load(jsonObj)
@@ -249,7 +249,7 @@ def accessSettingFile(file="", setting={}):
             with open(fullPath, "w+") as outfile:
                 dump(setting, outfile)
     except:
-        print(f"Error accessing the file: {fullPath}.")
+        if v:print(f"Error accessing the file: {fullPath}.")
 
 
 def displayUrl(data, btc='b', pNamU='Public URL: ', EcUrl=None, ExUrl=None, cls=True):
@@ -280,7 +280,7 @@ def displayUrl(data, btc='b', pNamU='Public URL: ', EcUrl=None, ExUrl=None, cls=
           btcolor = 'hsla(10, 86%, 56%, 1)'
           btshado = 'hsla(10, 40%, 52%, .4)'
 
-    return display(HTML('''<style>@import url('https://fonts.googleapis.com/css?family=Source+Code+Pro:200,900');  :root {   --text-color: '''+bttxt+''';   --shadow-color: '''+btshado+''';   --btn-color: '''+btcolor+''';   --bg-color: #141218; }  * {   box-sizing: border-box; } button { position:relative; padding: 10px 20px;     border: none;   background: none;   cursor: pointer;      font-family: "Source Code Pro";   font-weight: 900;   font-size: 20px;     color: var(--text-color);      background-color: var(--btn-color);   box-shadow: var(--shadow-color) 2px 2px 22px;   border-radius: 4px;    z-index: 0;     overflow: hidden;    }  button:focus {   outline-color: transparent;   box-shadow: var(--btn-color) 2px 2px 22px; }  .right::after, button::after {   content: var(--content);   display: block;   position: absolute;   white-space: nowrap;   padding: 40px 40px;   pointer-events:none; }  button::after{   font-weight: 200;   top: -30px;   left: -20px; }   .right, .left {   position: absolute;   width: 100%;   height: 100%;   top: 0; } .right {   left: 66%; } .left {   right: 66%; } .right::after {   top: -30px;   left: calc(-66% - 20px);      background-color: var(--bg-color);   color:transparent;   transition: transform .4s ease-out;   transform: translate(0, -90%) rotate(0deg) }  button:hover .right::after {   transform: translate(0, -47%) rotate(0deg) }  button .right:hover::after {   transform: translate(0, -50%) rotate(-7deg) }  button .left:hover ~ .right::after {   transform: translate(0, -50%) rotate(7deg) }  /* bubbles */ button::before {   content: '';   pointer-events: none;   opacity: .6;   background:     radial-gradient(circle at 20% 35%,  transparent 0,  transparent 2px, var(--text-color) 3px, var(--text-color) 4px, transparent 4px),     radial-gradient(circle at 75% 44%, transparent 0,  transparent 2px, var(--text-color) 3px, var(--text-color) 4px, transparent 4px),     radial-gradient(circle at 46% 52%, transparent 0, transparent 4px, var(--text-color) 5px, var(--text-color) 6px, transparent 6px);    width: 100%;   height: 300%;   top: 0;   left: 0;   position: absolute;   animation: bubbles 5s linear infinite both; }  @keyframes bubbles {   from {     transform: translate();   }   to {     transform: translate(0, -66.666%);   } }    Resources</style><center><a href="'''+showUrL+'''" target="_blank"><div style="width: 570px;   height: 80px; padding-top:15px"><button style='--content: "'''+showTxT+'''";'">   <div class="left"></div>'''+showTxT+'''<div class="right"></div> </div></button></a></center>'''))
+    return display(HTML('''<style>@import url('https://fonts.googleapis.com/css?family=Source+Code+Pro:200,900');  :root {   --text-color: '''+bttxt+''';   --shadow-color: '''+btshado+''';   --btn-color: '''+btcolor+''';   --bg-color: #141218; }  * {   box-sizing: border-box; } button { position:relative; padding: 10px 20px;     border: none;   background: none;   cursor: pointer;      font-family: "Source Code Pro";   font-weight: 900;   font-size: 100%;     color: var(--text-color);      background-color: var(--btn-color);   box-shadow: var(--shadow-color) 2px 2px 22px;   border-radius: 4px;    z-index: 0;     overflow: hidden;    }  button:focus {   outline-color: transparent;   box-shadow: var(--btn-color) 2px 2px 22px; }  .right::after, button::after {   content: var(--content);   display: block;   position: absolute;   white-space: nowrap;   padding: 40px 40px;   pointer-events:none; }  button::after{   font-weight: 200;   top: -30px;   left: -20px; }   .right, .left {   position: absolute;   width: 100%;   height: 100%;   top: 0; } .right {   left: 66%; } .left {   right: 66%; } .right::after {   top: -30px;   left: calc(-66% - 20px);      background-color: var(--bg-color);   color:transparent;   transition: transform .4s ease-out;   transform: translate(0, -90%) rotate(0deg) }  button:hover .right::after {   transform: translate(0, -47%) rotate(0deg) }  button .right:hover::after {   transform: translate(0, -50%) rotate(-7deg) }  button .left:hover ~ .right::after {   transform: translate(0, -50%) rotate(7deg) }  /* bubbles */ button::before {   content: '';   pointer-events: none;   opacity: .6;   background:     radial-gradient(circle at 20% 35%,  transparent 0,  transparent 2px, var(--text-color) 3px, var(--text-color) 4px, transparent 4px),     radial-gradient(circle at 75% 44%, transparent 0,  transparent 2px, var(--text-color) 3px, var(--text-color) 4px, transparent 4px),     radial-gradient(circle at 46% 52%, transparent 0, transparent 4px, var(--text-color) 5px, var(--text-color) 6px, transparent 6px);    width: 100%;   height: 300%;   top: 0;   left: 0;   position: absolute;   animation: bubbles 5s linear infinite both; }  @keyframes bubbles {   from {     transform: translate();   }   to {     transform: translate(0, -66.666%);   } }    Resources</style><center><a href="'''+showUrL+'''" target="_blank"><div style="width: 570px;   height: 80px; padding-top:15px"><button style='--content: "'''+showTxT+'''";'">   <div class="left"></div>'''+showTxT+'''<div class="right"></div> </div></button></a></center>'''))
 
 
 def findProcess(process, command="", isPid=False):
@@ -419,13 +419,19 @@ def updateCheck(self, Version):
 
 class LocalhostRun:
   def __init__(self,port,id=None,interval=30,retries=30):
+    import os
+    filePath = "/usr/local/sessionSettings/localhostDB.json"
+    if not os.path.exists(filePath):
+      os.makedirs(filePath[:-16], exist_ok=True)
+      open(filePath, 'w').close()
+    installAutoSSH()
     if not id:id=str(uuid.uuid4())[:8]
     self.connection=None
     self.id=id
     self.port=port
     self.interval=interval
     self.retries=retries
-    
+
   def start(self):
     if self.connection:self.connection.kill()
     self.connection=Popen(f"ssh -R 80:localhost:{self.port} {self.id}@ssh.localhost.run -o StrictHostKeyChecking=no".split(), stdout=PIPE, stdin=PIPE)
@@ -433,37 +439,68 @@ class LocalhostRun:
       return re.findall("http://(.*?.localhost.run)",self.connection.stdout.readline().decode("utf-8"))[0]
     except:
       raise Exception(self.connection.stdout.readline().decode("utf-8"))
-    
+
   def keep_alive(self):
-    if self.connection:self.connection.kill()
-    self.connection=Popen(f"ssh -R 80:localhost:{self.port} {self.id}@ssh.localhost.run -o StrictHostKeyChecking=no -o ServerAliveInterval={self.interval} -o ServerAliveCountMax={self.retries}".split(), stdout=PIPE, stdin=PIPE)
+    # if self.connection:self.connection.kill()
+    import urllib
+    try:
+      localhostOpenDB = dict(accessSettingFile("localhostDB.json", v=False))
+    except TypeError:
+      localhostOpenDB = dict()
+
+    if findProcess("autossh", f"80:localhost:{self.port}"):
+      try:
+        oldAddr = localhostOpenDB[str(self.port)]
+        urllib.request.urlopen("http://"+oldAddr)
+        return oldAddr
+      except:
+        pass
+
+    self.connection=Popen(f"autossh -R 80:localhost:{self.port} {self.id}@ssh.localhost.run -o StrictHostKeyChecking=no -o ServerAliveInterval={self.interval} -o ServerAliveCountMax={self.retries}".split(), stdout=PIPE, stdin=PIPE)
     #print("ssh -R 80:localhost:{self.port} {self.id}@ssh.localhost.run -o StrictHostKeyChecking=no -o ServerAliveInterval={self.interval} -o ServerAliveCountMax={self.retries}")
     try:
-      return re.findall("http://(.*?.localhost.run)",self.connection.stdout.readline().decode("utf-8"))[0]
+      newAddr = re.findall("http://(.*?.localhost.run)",self.connection.stdout.readline().decode("utf-8"))[0]
+      localhostOpenDB[str(self.port)] = newAddr 
+      accessSettingFile("localhostDB.json" , localhostOpenDB, v=False)
+      return newAddr
     except:
       raise Exception(self.connection.stdout.readline().decode("utf-8"))
-    
+
   def kill(self):
     self.connection.kill()
 
 
 class PortForward:
-  def __init__(self,connections,region=None,TOKEN=None,USE_FREE_TOKEN=None,config=None):
+  def __init__(self,connections,region=None,SERVICE="localhost",TOKEN=None,USE_FREE_TOKEN=None,config=None):
     c=dict()
     for con in connections:
       c[con[0]]=dict(port=con[1],proto=con[2])
     self.connections=c
     self.ngrok=ngrok(TOKEN,USE_FREE_TOKEN,connections,region,config)
-    
-  def start(self,name,displayB=None):
-    con=self.connections[name]
-    port=con["port"]
-    proto=con["proto"]
-    if(proto=="tcp"):
-      return self.ngrok.start(name)
-    else:return dict(url="http://"+LocalhostRun(port).keep_alive())
+    self.SERVICE = SERVICE
 
-    
+  def start(self,name,btc='b',displayB=True,v=True):
+    from IPython.display import clear_output
+
+    if self.SERVICE == "localhost":
+        con=self.connections[name]
+        port=con["port"]
+        proto=con["proto"]
+        if(proto=="tcp"):
+          return self.ngrok.start(name,btc,displayB,v)
+        else:
+          if v:
+              clear_output()
+              loadingAn(name="lds")
+              textAn("Starting localhost ...", ty="twg")
+          data = dict(url="http://"+LocalhostRun(port).keep_alive())
+          if displayB:
+              displayUrl(data, btc)
+          return data
+    elif self.SERVICE == "ngrok":
+        return self.ngrok.start(name,btc,displayB,v)
+
+
 class PortForward_wrapper(PortForward):
-  def __init__(self,TOKEN,USE_FREE_TOKEN,connections,region,config):
-    super(self.__class__,self).__init__(connections,region,TOKEN,USE_FREE_TOKEN,config)
+  def __init__(self,SERVICE,TOKEN,USE_FREE_TOKEN,connections,region,config):
+    super(self.__class__,self).__init__(connections,region,SERVICE,TOKEN,USE_FREE_TOKEN,config)
