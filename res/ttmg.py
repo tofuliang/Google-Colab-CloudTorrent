@@ -490,10 +490,10 @@ class PortForward:
           return self.ngrok.start(name,btc,displayB,v)
         else:
           if v:
+              clear_output()
               loadingAn(name="lds")
               textAn("Starting localhost ...", ty="twg")
           data = dict(url="http://"+LocalhostRun(port).keep_alive())
-          if v: clear_output()
           if displayB:
               displayUrl(data, btc)
           return data
