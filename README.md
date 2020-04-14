@@ -6,7 +6,7 @@
 
 <b>Features:</b><br>
 `Simple Torrent, peerflix-server, deluge, aria2, ariang, rclone, rclone WebUI, Jdownloader, Youtube-dl, Netdata, Cloud Commander, 
-Ssh, noVnc, filebrowser, µTorrent, Transmission Web Control, SocialFish, L3MON, SayCheese, spotify-downloader, pyLoad, qBittorrent`
+Ssh, noVnc, filebrowser, µTorrent, Transmission Web Control, SocialFish, L3MON, SayCheese, spotify-downloader, pyLoad, qBittorrent, rTorrent, code-server`
 
 
 # Usage
