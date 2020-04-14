@@ -231,17 +231,17 @@ def checkAvailable(path_="", userPath=False):
             else _p.exists(f"/usr/local/sessionSettings/{path_}")
         )
 
-def accessSettingFile(file="", setting={}):
+def accessSettingFile(file="", setting={}, v=True):
     from json import load, dump
 
     if not isinstance(setting, dict):
-        print("Only accept Dictionary object.")
+        if v:print("Only accept Dictionary object.")
         exx()
     fullPath = f"/usr/local/sessionSettings/{file}"
     try:
         if not len(setting):
             if not checkAvailable(fullPath):
-                print(f"File unavailable: {fullPath}.")
+                if v:print(f"File unavailable: {fullPath}.")
                 exx()
             with open(fullPath) as jsonObj:
                 return load(jsonObj)
@@ -249,7 +249,7 @@ def accessSettingFile(file="", setting={}):
             with open(fullPath, "w+") as outfile:
                 dump(setting, outfile)
     except:
-        print(f"Error accessing the file: {fullPath}.")
+        if v:print(f"Error accessing the file: {fullPath}.")
 
 
 def displayUrl(data, btc='b', pNamU='Public URL: ', EcUrl=None, ExUrl=None, cls=True):
@@ -419,6 +419,12 @@ def updateCheck(self, Version):
 
 class LocalhostRun:
   def __init__(self,port,id=None,interval=30,retries=30):
+    import os
+    filePath = "/usr/local/sessionSettings/localhostDB.json"
+    if not os.path.exists(filePath):
+      os.makedirs(filePath[:-16], exist_ok=True)
+      open(filePath, 'w').close()
+    installAutoSSH()
     if not id:id=str(uuid.uuid4())[:8]
     self.connection=None
     self.id=id
@@ -435,11 +441,28 @@ class LocalhostRun:
       raise Exception(self.connection.stdout.readline().decode("utf-8"))
 
   def keep_alive(self):
-    if self.connection:self.connection.kill()
-    self.connection=Popen(f"ssh -R 80:localhost:{self.port} {self.id}@ssh.localhost.run -o StrictHostKeyChecking=no -o ServerAliveInterval={self.interval} -o ServerAliveCountMax={self.retries}".split(), stdout=PIPE, stdin=PIPE)
+    # if self.connection:self.connection.kill()
+    import urllib
+    try:
+      localhostOpenDB = dict(accessSettingFile("localhostDB.json", v=False))
+    except TypeError:
+      localhostOpenDB = dict()
+
+    if findProcess("autossh", f"80:localhost:{self.port}"):
+      try:
+        oldAddr = localhostOpenDB[str(self.port)]
+        urllib.request.urlopen("http://"+oldAddr)
+        return oldAddr
+      except:
+        pass
+
+    self.connection=Popen(f"autossh -R 80:localhost:{self.port} {self.id}@ssh.localhost.run -o StrictHostKeyChecking=no -o ServerAliveInterval={self.interval} -o ServerAliveCountMax={self.retries}".split(), stdout=PIPE, stdin=PIPE)
     #print("ssh -R 80:localhost:{self.port} {self.id}@ssh.localhost.run -o StrictHostKeyChecking=no -o ServerAliveInterval={self.interval} -o ServerAliveCountMax={self.retries}")
     try:
-      return re.findall("http://(.*?.localhost.run)",self.connection.stdout.readline().decode("utf-8"))[0]
+      newAddr = re.findall("http://(.*?.localhost.run)",self.connection.stdout.readline().decode("utf-8"))[0]
+      localhostOpenDB[str(self.port)] = newAddr 
+      accessSettingFile("localhostDB.json" , localhostOpenDB, v=False)
+      return newAddr
     except:
       raise Exception(self.connection.stdout.readline().decode("utf-8"))
 
