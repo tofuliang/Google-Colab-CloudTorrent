@@ -1,6 +1,6 @@
-<p align="center"><img src="https://raw.githubusercontent.com/biplobsd/Google-Colab-CloudTorrent/master/src/cover.png" alt="cover"></p>
+<p align="center"><img src="https://raw.githubusercontent.com/tofuliang/Google-Colab-CloudTorrent/master/src/cover.png" alt="cover"></p>
 
-![preview](https://raw.githubusercontent.com/biplobsd/Google-Colab-CloudTorrent/master/src/preview.gif)
+![preview](https://raw.githubusercontent.com/tofuliang/Google-Colab-CloudTorrent/master/src/preview.gif)
 
 # Google-Colab-CloudTorrent <img src="https://hitcounter.pythonanywhere.com/count/tag.svg?url=https%3A%2F%2Fgithub.com%2Fbiplobsd%2FGoogle-Colab-CloudTorrent" alt="Hits">
 
